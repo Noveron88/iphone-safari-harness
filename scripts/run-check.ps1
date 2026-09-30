@@ -25,7 +25,7 @@ if (-not $run) { throw 'A futas nem jelent meg ket percen belul a GitHubon.' }
 
 $id = [string]$run.databaseId
 Write-Output "GitHub futas: $id"
-& gh run watch $id --repo $Repository --exit-status
+& gh run watch $id --repo $Repository --compact --interval 15 --exit-status
 if ($LASTEXITCODE -ne 0) { throw "A Safari futas sikertelen: $id" }
 
 $dest = Join-Path $root "artifacts\run-$id"
