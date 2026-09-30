@@ -13,6 +13,8 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run-check.ps1
 
 A masodik parancs a beepitett probaoldalt fenykepezi le. A kep az `artifacts\run-<azonosito>\screenshot.png` fajlba kerul, mellette `report.json` jelzi az eszkozt es az iOS runtime-ot. A GitHubon a munkafolyamat neve `iPhone Safari screenshot`.
 
+Az elso indulaskor a szimulator felepitese tobb perc is lehet. A Cloudflare alagut uj cimenek elerhetosege is keshet nagyjabol egy-ket percet.
+
 A mar mukodo Model-Agency tesztoldal ellenorzese:
 
 ```powershell

@@ -41,6 +41,16 @@ try {
         }
     }
     if (-not $base) { throw 'Nem kaptam Cloudflare URL-t ket percen belul.' }
+    $reachable = $false
+    for ($i = 0; $i -lt 60 -and -not $reachable; $i++) {
+        try {
+            $null = Invoke-WebRequest -Uri $base -UseBasicParsing -TimeoutSec 5
+            $reachable = $true
+        } catch {
+            Start-Sleep -Seconds 3
+        }
+    }
+    if (-not $reachable) { throw 'A Cloudflare alagut URL-je nem lett elerheto. A Safari futas nem indul.' }
     $url = $base.TrimEnd('/') + $Page
     Write-Output "Ideiglenes tesztoldal: $url"
     & (Join-Path $PSScriptRoot 'run-check.ps1') -Url $url
