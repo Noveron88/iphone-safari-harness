@@ -37,7 +37,13 @@ Alapertelmezett projektmappa: `C:\Users\adria\projects\Model-Agency`. Masik chec
 
 ## Claude Code
 
-Nyisd meg ezt a mappat Claude Code-ban, vagy add at neki a [CLAUDE.md](CLAUDE.md) utasitasait. A `run-check.ps1` vagy `run-modelagency.ps1` kimeneti kepet kell megneznie, majd a felismert hibara javitast javasolnia vagy a projektben javitania. Egy lenyeges UI valtoztatashoz egy kep es rovid riport eleg; csak javitas utan kell ujra futtatni.
+Claude Code inditasa ugy, hogy ezt az utasitast olvassa es a Model-Agency projektet is elerje:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\start-claude.ps1
+```
+
+A [CLAUDE.md](CLAUDE.md) leirja neki a Safari-ellenorzes menetet. A `run-check.ps1` vagy `run-modelagency.ps1` kimeneti kepet kell megneznie, majd a felismert hibara javitast javasolnia vagy a projektben javitania. Egy lenyeges UI valtoztatashoz egy kep es rovid riport eleg; csak javitas utan kell ujra futtatni.
 
 ## Korlatok es koltseg
 
