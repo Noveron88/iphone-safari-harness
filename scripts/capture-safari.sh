@@ -16,7 +16,14 @@ if ! xcrun simctl list devicetypes | grep -Fq 'iPhone 14 ('; then
   exit 1
 fi
 
-DEVICE_ID="$(xcrun simctl create 'IPHONE Safari QA' 'iPhone 14')"
+SIM_RUNTIME='com.apple.CoreSimulator.SimRuntime.iOS-18-6'
+if ! xcrun simctl list runtimes | grep -Fq "$SIM_RUNTIME"; then
+  echo '::error::Az iOS 18.6 Simulator runtime nem érhető el ezen a GitHub Mac gépen.'
+  xcrun simctl list runtimes
+  exit 1
+fi
+
+DEVICE_ID="$(xcrun simctl create 'IPHONE Safari QA' 'iPhone 14' "$SIM_RUNTIME")"
 trap 'xcrun simctl shutdown "$DEVICE_ID" >/dev/null 2>&1 || true; xcrun simctl delete "$DEVICE_ID" >/dev/null 2>&1 || true' EXIT
 xcrun simctl boot "$DEVICE_ID"
 xcrun simctl bootstatus "$DEVICE_ID" -b
@@ -25,7 +32,7 @@ xcrun simctl openurl "$DEVICE_ID" "$TARGET_URL"
 sleep 5
 xcrun simctl io "$DEVICE_ID" screenshot "$OUTPUT_DIR/screenshot.png"
 
-export TARGET_URL OUTPUT_DIR
+export TARGET_URL OUTPUT_DIR SIM_RUNTIME
 python3 - <<'PY'
 import json
 import os
@@ -34,6 +41,7 @@ from pathlib import Path
 
 report = {
     'device': 'iPhone 14 Simulator',
+    'runtime': os.environ['SIM_RUNTIME'],
     'url': os.environ['TARGET_URL'],
     'screenshot': 'screenshot.png',
     'runtimes': subprocess.check_output(['xcrun', 'simctl', 'list', 'runtimes'], text=True).strip(),

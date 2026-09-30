@@ -43,6 +43,6 @@ Nyisd meg ezt a mappat Claude Code-ban, vagy add at neki a [CLAUDE.md](CLAUDE.md
 - A Cloudflare Quick Tunnel tesztre ingyenesen hasznalhato, fiok es domain nelkul. Csak addig el, amig a folyamat fut.
 - Ez valodi Safari **iOS Simulatorban**, de nem fizikai iPhone 14. Kamera, billentyuzet es egyes hardverreszletek elterhetnek.
 - A munkafolyamat csak egy kepernyot ment. Bejelentkezett belso oldalakhoz kesobb kulon automatizalt bejelentkezes vagy teszt session szukseges.
-- Ha a GitHub Mac gepen az iPhone 14 Simulator tipus mar nem elerheto, a futas hibaval leall; nem valt at masik telefonra eszrevetlenul.
+- A teszt iOS 18.6 rendszert hasznal, mert az iOS 26 friss Safari-elsoinditasi sugoja eltakarja a kepernyo aljat az uj szimulatoron. Ha a GitHub Mac gepen az iPhone 14 vagy az iOS 18.6 mar nem elerheto, a futas hibaval leall.
 
 Forrasok: [GitHub Mac futtatok](https://docs.github.com/en/actions/reference/runners/github-hosted-runners), [Cloudflare Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
