@@ -25,12 +25,19 @@ if (-not $run) { throw 'A futas nem jelent meg ket percen belul a GitHubon.' }
 
 $id = [string]$run.databaseId
 Write-Output "GitHub futas: $id"
-& gh run watch $id --repo $Repository --compact --interval 15 --exit-status
-if ($LASTEXITCODE -ne 0) { throw "A Safari futas sikertelen: $id" }
-
 $dest = Join-Path $root "artifacts\run-$id"
-New-Item -ItemType Directory -Force -Path $dest | Out-Null
-& gh run download $id --repo $Repository --name iphone-safari --dir $dest
-if ($LASTEXITCODE -ne 0) { throw "Nem sikerult letolteni a kepet: $id" }
+try {
+    & gh run watch $id --repo $Repository --compact --interval 15 --exit-status
+    if ($LASTEXITCODE -ne 0) { throw "A Safari futas sikertelen: $id" }
+    New-Item -ItemType Directory -Force -Path $dest | Out-Null
+    & gh run download $id --repo $Repository --name iphone-safari --dir $dest
+    if ($LASTEXITCODE -ne 0) { throw "Nem sikerult letolteni a kepet: $id" }
+}
+finally {
+    if ($Url) {
+        & gh run delete $id --repo $Repository
+        if ($LASTEXITCODE -ne 0) { Write-Warning "A nyilvanos GitHub futast nem sikerult torolni: $id" }
+    }
+}
 Write-Output "Kepernyokep: $(Join-Path $dest 'screenshot.png')"
 Write-Output "Riport: $(Join-Path $dest 'report.json')"

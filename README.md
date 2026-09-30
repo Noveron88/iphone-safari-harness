@@ -33,7 +33,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run-modelagency.ps1 -Page '/'
 
 Alapertelmezett projektmappa: `C:\Users\adria\projects\Model-Agency`. Masik checkout eseten hasznald a `-ProjectPath` parametert. A script ellenorzi, hogy a `.env.local` ne az ismert eles adatbazisra mutasson, elinditja a projekt sajat `scripts\test-server.ps1` tesztszerveret, megvarja a GitHub Safari-futast, letolti a kepet, majd leallitja az altala inditott szervert es alagutat. A 3140-es port szabad kell legyen.
 
-**Az alagut URL-je barkinek hozzaferest ad, aki ismeri, amig a futas tart.** Csak tesztadatokkal hasznald. Az URL a nyilvanos GitHub workflow bemeneteben is lathato; a folyamat vegen megszunik. A `bin\cloudflared.exe` a gepen van, a nyilvanos repoba nem kerul.
+**Az alagut URL-je barkinek hozzaferest ad, aki ismeri, amig a futas tart.** Csak tesztadatokkal hasznald. Az URL a nyilvanos GitHub workflow bemeneteben is lathato; a folyamat vegen megszunik. A kepernyokep letoltese utan a script torli a nyilvanos GitHub-futast es annak online kepet. A helyi kep megmarad. A `bin\cloudflared.exe` a gepen van, a nyilvanos repoba nem kerul.
 
 ## Claude Code
 
