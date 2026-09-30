@@ -1,0 +1,45 @@
+name: iPhone Safari screenshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'HTTPS oldal URL-je (ures = beepitett probaoldal)'
+        required: false
+        type: string
+  push:
+    branches: [main]
+
+jobs:
+  capture:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start demo site
+        if: ${{ inputs.url == '' }}
+        run: |
+          python3 -m http.server 4173 --directory demo > /tmp/iphone-demo.log 2>&1 &
+          for i in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/iphone-demo.log
+          exit 1
+
+      - name: Capture Safari
+        env:
+          TARGET_URL: ${{ inputs.url }}
+        run: |
+          if [ -z "$TARGET_URL" ]; then TARGET_URL='http://127.0.0.1:4173/'; fi
+          bash scripts/capture-safari.sh "$TARGET_URL" artifacts
+
+      - name: Upload screenshot and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iphone-safari
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 1
